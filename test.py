@@ -8,6 +8,9 @@ from browser_use.agent.views import ActionResult
 from langchain_openai import ChatOpenAI
 from pydantic import SecretStr
 from browser_use import Agent, Browser, BrowserConfig
+from langchain_huggingface import HuggingFaceHub
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
 
 # ---------------------------
 # 第一部分：环境配置
@@ -117,6 +120,31 @@ async def main():
 
     finally:
         await edge_browser.close()  # 确保关闭浏览器
+
+# 设置你的 HF token
+os.environ["HUGGINGFACE_API_TOKEN"] = "你的_HF_TOKEN"
+
+# 初始化模型
+llm = HuggingFaceHub(
+    repo_id="google/flan-t5-xxl",  # 选择一个支持的模型
+    model_kwargs={
+        "temperature": 0.7,
+        "max_length": 512
+    }
+)
+
+# 创建提示模板
+prompt = PromptTemplate(
+    input_variables=["question"],
+    template="请回答下面的问题: {question}"
+)
+
+# 创建链
+chain = LLMChain(llm=llm, prompt=prompt)
+
+# 使用
+response = chain.run("什么是人工智能？")
+print(response)
 
 if __name__ == "__main__":
     asyncio.run(main())
