@@ -39,13 +39,14 @@ llm1=ChatOllama(
                 num_ctx=32000  # 增加上下文窗口，防止任务过长被截断
             )
 '''
+'''
 llm2=DeepseekToolWrapper()
 '''
-llm3=llm1=ChatOllama(
+llm3=ChatOllama(
                 model="MFDoom/deepseek-r1-tool-calling:7b",  # 使用本地 Ollama 模型
                 num_ctx=32000  # 增加上下文窗口，防止任务过长被截断
             )
-'''
+
 async def main():
     # 1. 初始化浏览器
     browser = configure_chrome_browser()
