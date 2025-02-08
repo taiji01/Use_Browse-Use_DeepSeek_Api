@@ -39,13 +39,15 @@ llm1=ChatOllama(
                 num_ctx=32000  # 增加上下文窗口，防止任务过长被截断
             )
 '''
-'''
+
 llm2=DeepseekToolWrapper()
+
 '''
 llm3=ChatOllama(
                 model="MFDoom/deepseek-r1-tool-calling:7b",  # 使用本地 Ollama 模型
                 num_ctx=32000  # 增加上下文窗口，防止任务过长被截断
             )
+'''
 
 async def main():
     # 1. 初始化浏览器
@@ -67,11 +69,8 @@ async def main():
                 "7.播放最新发布的视频\n"
                 "8.等待15秒后返回视频标题和播放时长"
             ),
-            llm=ChatOllama(
-                model="qwen2:7b",  # 使用本地 Ollama 模型
-                num_ctx=32000  # 增加上下文窗口，防止任务过长被截断
-            ),
-            browser=chrome_browser,
+            llm=llm2,
+            browser=browser,
             use_vision=False,
             max_failures=3,
             max_actions_per_step=2
